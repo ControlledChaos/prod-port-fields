@@ -13,7 +13,7 @@
  *
  * Plugin Name:  Production Portfolios Fields
  * Plugin URI:   http://productionportfolios.com/
- * Description:  Get noticed!
+ * Description:  A content management interface for your portfolio website.
  * Version:      5.7.7
  * Author:       Production Portfolios
  * Author URI:   http://productionportfolios.com/
@@ -77,7 +77,15 @@ final class Production_Portfolios_Fields {
 	 * @access private
 	 * @return void Constructor method is empty.
 	 */
-	private function __construct() {}
+	private function __construct() {
+
+		// Update the ACF path.
+		add_filter( 'acf/settings/path', [ $this, 'acf_settings_path' ] );
+
+		// Update the ACF directory.
+		add_filter( 'acf/settings/dir', [ $this, 'acf_settings_dir' ] );
+
+	}
 
 	/**
 	 * Define plugin constants.
@@ -92,11 +100,11 @@ final class Production_Portfolios_Fields {
 		 * Keeping the version consistent with the included version
 		 * of Advanced Custom Fields Pro.
 		 *
-		 * @since  1.0.0
+		 * @since  5.7.7
 		 * @return string Returns the latest plugin version.
 		 */
 		if ( ! defined( 'PPP_VERSION' ) ) {
-			define( 'PPP_VERSION', '1.0.0' );
+			define( 'PPP_VERSION', '5.7.7' );
 		}
 
 		/**
@@ -120,6 +128,38 @@ final class Production_Portfolios_Fields {
 		if ( ! defined( 'PPF_URL' ) ) {
 			define( 'PPF_URL', plugin_dir_url( __FILE__ ) );
 		}
+
+	}
+
+	/**
+	 * Update the ACF path.
+	 *
+	 * @since  5.7.7
+	 * @access public
+	 * @param  string $path
+	 * @return string returns the path to the ACF files.
+	 */
+	public function acf_settings_path( $path ) {
+
+		$path = PPF_PATH . 'fields/';
+
+		return $path;
+
+	}
+
+	/**
+	 * Update the ACF directory.
+	 *
+	 * @since  5.7.7
+	 * @access public
+	 * @param  string $dir
+	 * @return string returns the URL to the ACF directory.
+	 */
+	public function acf_settings_dir( $dir ) {
+
+		$dir = PPF_URL . 'fields/';
+
+		return $dir;
 
 	}
 
