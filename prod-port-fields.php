@@ -2,9 +2,10 @@
 /**
  * Production Portfolios Fields
  *
- * Change this header information to suit your needs.
+ * This is essentially a premium distribution shell for the
+ * Advanced Custom Fields PRO plugin. See notice below.
  *
- * @package     Production_Portfolios
+ * @package     Production_Portfolios_Fields
  * @version     5.7.7
  * @author      Greg Sweet <greg@productionportfolios.com>
  * @copyright   Copyright © 2018, Production Portfolios
@@ -24,16 +25,109 @@
  * Tested up to: 4.9.8
  */
 
+/**
+ * Production Portfolios Fields version notice.
+ *
+ * The version of this plugin will be kept consistent with the version
+ * of Advanced Custom Fields PRO that is included. The initital development
+ * version of Production Portfolios Fields included ACF 5.7.7 so the
+ * @since versions referring to 5.7.7 refer to the first version.
+ */
+
+/**
+ * Production Portfolios Fields distribution notice.
+ *
+ * @since  5.7.7
+ *
+ * Production Portfolios Fields includes the complete Advanced Custom Fields PRO
+ * plugin. As per their request, whether or not such a request is compatible under
+ * the GNU license to which WordPress products are bound, the ACF PRO files included
+ * here are not to be used or distributed outside of the Production Portfolios plugin.
+ *
+ * @link https://www.advancedcustomfields.com/resources/including-acf-in-a-plugin-theme/
+ *
+ * If you wish to obtain a copy of Advanced Custom Fields PRO then have some self
+ * respect and buy a license of your own. It is a one-time purchase and the price is
+ * well worth the endless possibilities which the plugin provides.
+ *
+ * @link https://www.advancedcustomfields.com/pro
+ *
+ * @see  prod-port-fields/fields/readme.txt
+ * @see  prod-port-fields/fields/acf.php
+ */
+
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
 /**
- * The core plugin class.
+ * If Advanced Custom Fields is active then stop here.
  *
- * Defines constants, gets the initialization class file
- * plus the activation and deactivation classes.
+ * @since  5.7.7
+ * @return void
+ */
+if ( class_exists( 'acf' ) ) {
+	return;
+}
+
+/**
+ * Get plugins path to check for active plugins.
+ *
+ * @since  5.7.7
+ * @return void
+ */
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+/**
+ * Define the Production Portfolios plugin path.
+ *
+ * @since  5.7.7
+ * @return string Returns the plugin path of the parent.
+ */
+if ( ! defined( 'PPF_PARENT' ) ) {
+	define( 'PPF_PARENT', 'prod-port/prod-port.php' );
+}
+
+/**
+ * Check for the plugin dependency.
+ *
+ * Add an admin error notice if the Production Portfolios
+ * base plugin is not active.
+ *
+ * @since  5.7.7
+ * @return void
+ */
+if ( ! is_plugin_active( PPF_PARENT ) ) {
+
+	add_action( 'admin_notices', 'ppf_parent_notice' );
+
+}
+
+/**
+ * Get the parent plugin admin notice output.
+ *
+ * @since  5.7.7
+ * @return void
+ */
+function ppf_parent_notice() {
+
+	require_once plugin_dir_path( __FILE__ ) . 'includes/parent-notice.php';
+
+}
+
+/**
+ * If ACF or the parent plugin is not active then stop here.
+ *
+ * @since  5.7.7
+ * @return void
+ */
+if ( ! is_plugin_active( PPF_PARENT ) ) {
+	return;
+}
+
+/**
+ * The core plugin class.
  *
  * @since  5.7.7
  * @access public
@@ -56,9 +150,6 @@ final class Production_Portfolios_Fields {
 
 			// Set variable for new instance.
 			$instance = new self;
-
-			// Define plugin constants.
-			$instance->constants();
 
 			// Require the core plugin class files.
 			$instance->dependencies();
@@ -85,49 +176,8 @@ final class Production_Portfolios_Fields {
 		// Update the ACF directory.
 		add_filter( 'acf/settings/dir', [ $this, 'acf_settings_dir' ] );
 
-	}
-
-	/**
-	 * Define plugin constants.
-	 *
-	 * @since  5.7.7
-	 * @access private
-	 * @return void
-	 */
-	private function constants() {
-
-		/**
-		 * Keeping the version consistent with the included version
-		 * of Advanced Custom Fields Pro.
-		 *
-		 * @since  5.7.7
-		 * @return string Returns the latest plugin version.
-		 */
-		if ( ! defined( 'PPP_VERSION' ) ) {
-			define( 'PPP_VERSION', '5.7.7' );
-		}
-
-		/**
-		 * Plugin folder path.
-		 *
-		 * @since  5.7.7
-		 * @return string Returns the filesystem directory path (with trailing slash)
-		 *                for the plugin __FILE__ passed in.
-		 */
-		if ( ! defined( 'PPF_PATH' ) ) {
-			define( 'PPF_PATH', plugin_dir_path( __FILE__ ) );
-		}
-
-		/**
-		 * Plugin folder URL.
-		 *
-		 * @since  5.7.7
-		 * @return string Returns the URL directory path (with trailing slash)
-		 *                for the plugin __FILE__ passed in.
-		 */
-		if ( ! defined( 'PPF_URL' ) ) {
-			define( 'PPF_URL', plugin_dir_url( __FILE__ ) );
-		}
+		// Hide ACF field group menu item.
+		add_filter( 'acf/settings/show_admin', '__return_false' );
 
 	}
 
@@ -141,7 +191,7 @@ final class Production_Portfolios_Fields {
 	 */
 	public function acf_settings_path( $path ) {
 
-		$path = PPF_PATH . 'fields/';
+		$path = plugin_dir_path( __FILE__ ) . 'fields/';
 
 		return $path;
 
@@ -157,7 +207,7 @@ final class Production_Portfolios_Fields {
 	 */
 	public function acf_settings_dir( $dir ) {
 
-		$dir = PPF_URL . 'fields/';
+		$dir = plugin_dir_url( __FILE__ ) . 'fields/';
 
 		return $dir;
 
@@ -173,7 +223,7 @@ final class Production_Portfolios_Fields {
 	private function dependencies() {
 
 		// Include the fields directory.
-		require_once PPF_PATH . 'fields/acf.php';
+		require_once plugin_dir_path( __FILE__ ) . 'fields/acf.php';
 
 	}
 
