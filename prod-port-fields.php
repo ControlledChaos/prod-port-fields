@@ -37,7 +37,7 @@
 /**
  * Production Portfolios Fields distribution notice.
  *
- * @since  5.7.7
+ * @since 5.7.7
  *
  * Production Portfolios Fields includes the complete Advanced Custom Fields PRO
  * plugin. As per their request, whether or not such a request is compatible under
