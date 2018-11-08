@@ -117,7 +117,7 @@ function ppf_parent_notice() {
 }
 
 /**
- * If ACF or the parent plugin is not active then stop here.
+ * If the parent plugin is not active then stop here.
  *
  * @since  5.7.7
  * @return void
