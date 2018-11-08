@@ -5,12 +5,12 @@
  * This is essentially a premium distribution shell for the
  * Advanced Custom Fields PRO plugin. See notice below.
  *
- * @package     Production_Portfolios_Fields
- * @version     5.7.7
- * @author      Greg Sweet <greg@productionportfolios.com>
- * @copyright   Copyright © 2018, Production Portfolios
- * @link        http://productionportfolios.com/
- * @license     GPL-3.0+ http://www.gnu.org/licenses/gpl-3.0.txt
+ * @package      Production_Portfolios_Fields
+ * @version      5.7.7
+ * @author       Greg Sweet <greg@productionportfolios.com>
+ * @copyright    Copyright © 2018, Production Portfolios
+ * @link         http://productionportfolios.com/
+ * @license      GPL-3.0+ http://www.gnu.org/licenses/gpl-3.0.txt
  *
  * Plugin Name:  Production Portfolios Fields
  * Plugin URI:   http://productionportfolios.com/
@@ -166,7 +166,7 @@ final class Production_Portfolios_Fields {
 	 *
 	 * @since  5.7.7
 	 * @access private
-	 * @return void Constructor method is empty.
+	 * @return self
 	 */
 	private function __construct() {
 
